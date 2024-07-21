@@ -1,5 +1,11 @@
 include(CTest)
 
-add_subdirectory(factory)
+set(TEST_NAMES
+    factory
+    registry
+)
 
-add_test(NAME test_factory COMMAND factory)
+foreach(TEST_NAME ${TEST_NAMES})
+    add_subdirectory(${TEST_NAME})
+    add_test(NAME test_${TEST_NAME} COMMAND ${TEST_NAME})
+endforeach()

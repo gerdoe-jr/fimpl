@@ -1,4 +1,4 @@
-#include <fimpl/factory.hpp>
+#include <fimpl/registry.hpp>
 
 #include "../interface.hpp"
 
@@ -9,7 +9,6 @@ public:
 	}
 };
 
-template<>
-icontext *create_instance<"int">() {
+fimpl_define_impl("int", icontext)() {
 	return new int_context;
 }

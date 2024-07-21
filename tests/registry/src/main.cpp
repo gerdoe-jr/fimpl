@@ -1,7 +1,7 @@
 #include <cassert>
 #include <iostream>
 
-#include <fimpl/factory.hpp>
+#include <fimpl/registry.hpp>
 
 #include "interface.hpp"
 
@@ -12,9 +12,11 @@
 		std::cout << "[" #expr "] have been passed successfully!" << std::endl; \
 	};
 
+static implementation_registry<icontext, "float", "int"> impl_registry;
+
 int main() {
-	icontext *float_instance = create_instance<"float", icontext>();
-	icontext *int_instance = create_instance<"int", icontext>();
+	icontext *float_instance = impl_registry.get<"float">();
+	icontext *int_instance = impl_registry.get<"int">();
 
 	ASSERT(float_instance->return_something() == 24);
 	ASSERT(int_instance->return_something() == 42);

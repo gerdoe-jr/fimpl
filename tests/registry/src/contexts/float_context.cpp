@@ -1,4 +1,4 @@
-#include <fimpl/factory.hpp>
+#include <fimpl/registry.hpp>
 
 #include "../interface.hpp"
 
@@ -9,7 +9,6 @@ public:
 	}
 };
 
-template<>
-icontext *create_instance<"float">() {
+fimpl_define_impl("float", icontext)() {
 	return new float_context;
 }
