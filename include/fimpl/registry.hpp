@@ -31,15 +31,19 @@ class implementation_factory {
 	friend class implementation_registry;
 
 protected:
+	implementation_factory() {}
+	~implementation_factory() {}
+
+protected:
 	template<compile_time_str Name>
 	Interface *create_instance();
 };
 
 template<typename Interface, compile_time_str... Names>
 class implementation_registry {
-	implementation_factory<Interface> factory{};
-
 	constexpr static std::array<const char *, sizeof...(Names)> names = {Names.data...};
+	constexpr static implementation_factory<Interface> factory = {};
+
 	std::array<Interface *, sizeof...(Names)> impls = {};
 
 public:
@@ -59,7 +63,7 @@ class interface_registry {
 	using interface_list = type_list<typename decltype(NamedInterfaces)::interface...>;
 
 	constexpr static std::array<const char *, sizeof...(NamedInterfaces)> names = {NamedInterfaces.name.data...};
-	static interface_list::template wrap<implementation_registry>::template to<std::tuple> impls;
+	interface_list::template wrap<implementation_registry>::template to<std::tuple> impls;
 
 public:
 	template<typename Interface>
