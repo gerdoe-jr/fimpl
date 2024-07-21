@@ -45,7 +45,7 @@ class implementation_registry {
 public:
 	template<compile_time_str Name>
 	Interface *get() {
-		auto id = first_entry_id(names, Name.data, std::strcmp);
+		constexpr auto id = first_entry_id(names, Name.data, std::strcmp);
 
 		if(impls[id] == nullptr)
 			impls[id] = factory.template create_instance<Name>();
